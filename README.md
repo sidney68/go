@@ -1,1 +1,1 @@
-# go
+- includes competed exercises from [A Tour of Go](https://tour.golang.org)
