@@ -1,1 +1,1 @@
-- includes competed exercises from [A Tour of Go](https://tour.golang.org)
+- includes completed exercises from [A Tour of Go](https://tour.golang.org)
