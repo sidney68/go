@@ -1,25 +1,29 @@
 package main
 
-import "fmt"
+import (
+    "fmt"
+)
 
 func fibonacci() func() int {
-    var p1, p2 int
+    var x, y int
     return func() int {
-        curr := p1 + p2
+        z := x + y
         switch {
-        case p1 == 0 && p2 == 0:
-            p1 = 1
+        case x == 0 && y == 0:
+            x = 1
         default:
-            p1 = p2
-            p2 = curr
+            x = y
+            y = z
         }
-        return curr
+        return z
     }
 }
 
 func main() {
     f := fibonacci()
-    for i := 0; i < 10; i++ {
-        fmt.Println(f())
+    arr := make([]int, 10)
+    for i := 0; i < len(arr); i++ {
+        arr[i] = f()
     }
+    fmt.Println(arr)
 }
