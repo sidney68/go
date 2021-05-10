@@ -29,7 +29,7 @@ func Same(t1, t2 *tree.Tree) bool {
             return false
         }
     }
-    if _, ok := <-c2; ok == true {
+    if _, ok := <-c2; ok {
         return false
     }
     return true
