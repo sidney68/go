@@ -16,8 +16,8 @@ func walk(t *tree.Tree, c chan int) {
 }
 
 func Walk(t *tree.Tree, c chan int) {
+	defer close(c)
 	walk(t, c)
-	close(c)
 }
 
 func Same(t1, t2 *tree.Tree) bool {
@@ -28,6 +28,9 @@ func Same(t1, t2 *tree.Tree) bool {
 		if i != <-c2 {
 			return false
 		}
+	}
+	if _, ok := <-c2; ok == true {
+		return false
 	}
 	return true
 }
