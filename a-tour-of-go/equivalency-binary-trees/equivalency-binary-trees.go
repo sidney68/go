@@ -24,8 +24,8 @@ func Same(t1, t2 *tree.Tree) bool {
 	c1, c2 := make(chan int), make(chan int)
 	go Walk(t1, c1)
 	go Walk(t2, c2)
-	for i := range c1 {
-		if i != <-c2 {
+	for v := range c1 {
+		if v != <-c2 {
 			return false
 		}
 	}
