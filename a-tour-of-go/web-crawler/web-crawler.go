@@ -29,10 +29,7 @@ func (c *Crawler) visit(url string) bool {
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
 func (c *Crawler) Crawl(url string, depth int, fetcher Fetcher) {
-    var wg sync.WaitGroup
-
-    b := c.visit(url)
-    if b || depth <= 0 {
+    if c.visit(url) || depth <= 0 {
         return
     }
     body, urls, err := fetcher.Fetch(url)
@@ -41,6 +38,8 @@ func (c *Crawler) Crawl(url string, depth int, fetcher Fetcher) {
         return
     }
     fmt.Printf("found: %s %q\n", url, body)
+
+    var wg sync.WaitGroup
     for _, v := range urls {
         wg.Add(1)
         go func(url string) {
@@ -48,7 +47,6 @@ func (c *Crawler) Crawl(url string, depth int, fetcher Fetcher) {
             c.Crawl(url, depth-1, fetcher)
         }(v)
     }
-
     wg.Wait()
 }
 
