@@ -26,12 +26,6 @@ func (c *Crawler) visit(url string) bool {
     return ok
 }
 
-type Fetcher interface {
-    // Fetch returns the body of URL and
-    // a slice of URLs found on that page.
-    Fetch(url string) (body string, urls []string, err error)
-}
-
 // Crawl uses fetcher to recursively crawl
 // pages starting with url, to a maximum of depth.
 func (c *Crawler) Crawl(url string, depth int, fetcher Fetcher) {
@@ -61,6 +55,12 @@ func (c *Crawler) Crawl(url string, depth int, fetcher Fetcher) {
 func main() {
     crawler := New()
     crawler.Crawl("https://golang.org/", 4, fetcher)
+}
+
+type Fetcher interface {
+    // Fetch returns the body of URL and
+    // a slice of URLs found on that page.
+    Fetch(url string) (body string, urls []string, err error)
 }
 
 // fakeFetcher is Fetcher that returns canned results.
