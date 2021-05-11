@@ -19,11 +19,11 @@ func New() *Crawler {
 func (c *Crawler) visit(url string) bool {
     c.mutex.Lock()
     defer c.mutex.Unlock()
-    if _, ok := c.urls[url]; ok {
-        return true
+    ok := c.urls[url]
+    if !ok {
+        c.urls[url] = true
     }
-    c.urls[url] = true
-    return false
+    return ok
 }
 
 type Fetcher interface {
@@ -47,12 +47,12 @@ func (c *Crawler) Crawl(url string, depth int, fetcher Fetcher) {
         return
     }
     fmt.Printf("found: %s %q\n", url, body)
-    for _, url := range urls {
+    for _, v := range urls {
         wg.Add(1)
         go func(url string) {
             defer wg.Done()
             c.Crawl(url, depth-1, fetcher)
-        }(url)
+        }(v)
     }
 
     wg.Wait()
